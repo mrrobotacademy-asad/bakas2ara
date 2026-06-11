@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية مستر روبوت للتدريب وتعليم البرمجة والذكاء الإصطناعي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #c9d1d9;
+            --accent-color: #58a6ff;
+            --success-color: #2ea44f;
+            --danger-color: #f85149;
+            --warning-color: #f0883e;
+            --border-color: #30363d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 120px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            margin: 10px 0 5px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s, opacity 0.3s;
+            margin: 5px;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { background-color: #21262d; color: #8b949e; cursor: not-allowed; }
+        .btn-youtube { background-color: #ff0000; }
+        .btn-whatsapp { background-color: #25d366; }
+        .btn-check { background-color: #8957e5; }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: bold; }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .timer-box {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--warning-color);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
+            z-index: 1000;
+        }
+
+        pre, .code-editor {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 6px;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Fira Code', monospace;
+            overflow-x: auto;
+            color: #ff7b72;
+        }
+        
+        .editor-container {
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .editor-header {
+            background-color: #1f242c;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .code-editor {
+            width: 100%;
+            height: 140px;
+            background-color: #0d1117;
+            color: #79c0ff;
+            border: none;
+            resize: vertical;
+            box-sizing: border-box;
+            font-size: 1rem;
+            line-height: 1.5;
+            padding: 15px;
+        }
+        .code-editor:focus {
+            outline: none;
+        }
+        .console-output {
+            background-color: #05070a;
+            border-top: 1px solid var(--border-color);
+            padding: 15px;
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
+            text-align: left;
+            min-height: 50px;
+            color: #58a6ff;
+            white-space: pre-wrap;
+        }
+        .console-title {
+            font-size: 0.8rem;
+            color: #8b949e;
+            margin-bottom: 5px;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .badge {
+            background-color: #21262d;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .info-block {
+            margin: 15px 0;
+            padding: 10px 15px;
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(88, 166, 255, 0.1);
+            border-radius: 0 6px 6px 0;
+        }
+        .info-block.mistake {
+            border-left-color: var(--danger-color);
+            background-color: rgba(248, 81, 73, 0.1);
+        }
+        .info-block.challenge {
+            border-left-color: var(--warning-color);
+            background-color: rgba(240, 136, 62, 0.1);
+        }
+
+        .breakdown-list { padding-right: 20px; margin: 10px 0; }
+        .breakdown-list li { margin-bottom: 5px; }
+
+        .options-list { list-style: none; padding: 0; margin: 20px 0; }
+        .option-item {
+            margin-bottom: 12px;
+            background-color: var(--bg-color);
+            padding: 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .option-item:hover { background-color: #1f242c; }
+        .option-item input { margin-left: 12px; cursor: pointer; }
+        
+        .option-item.correct {
+            background-color: rgba(46, 164, 79, 0.15) !important;
+            border-color: var(--success-color) !important;
+        }
+        .option-item.wrong {
+            background-color: rgba(248, 81, 73, 0.15) !important;
+            border-color: var(--danger-color) !important;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .certificate-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 8px double var(--accent-color);
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            color: #fff;
+            margin-top: 20px;
+        }
+        .certificate-box h2 { color: #ffd700; font-size: 2.2rem; margin-top: 0; }
+        .certificate-box .student-name { font-size: 2rem; color: var(--accent-color); margin: 20px 0; font-weight: bold; }
+
+        #quiz-container, #result-container { display: none; }
+
+        .interactive-tab {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .interactive-tab-header {
+            background-color: #1f242c;
+            padding: 12px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .interactive-tab-header:hover {
+            background-color: #282e38;
+        }
+        .interactive-tab-content {
+            padding: 15px;
+            background-color: var(--bg-color);
+            display: none;
+            border-top: 1px solid var(--border-color);
+        }
+        .interactive-tab.active .interactive-tab-content {
+            display: block;
+        }
+        .interactive-tab-header::after {
+            content: '📂';
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+        .interactive-tab.active .interactive-tab-header::after {
+            content: '📂';
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="timer-box" id="timer-box" style="display: none;">الوقت المتبقي: <span id="timer-display">60:00</span></div>
+
+    <header>
+        <img src="https://i.postimg.cc/H8J4gQj6/image.png" alt="لوجو أكاديمية مستر روبوت" class="logo">
+        <h1>أكاديمية مستر روبوت</h1>
+        <p>مهندس / أندرو مجدي</p>
+        <a href="https://youtube.com/@mrrobotacademy?si=OnsqGekQOfPy-_QL" target="_blank" class="btn btn-youtube">قناة اليوتيوب الرسمية</a>
+    </header>
+
+    <div class="container">
+
+        <section class="card" id="lessons-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>📚 المحاضرة والشرح التفاعلي</h2>
+                <span class="badge" id="lesson-progress">الدرس 1 من 40</span>
+            </div>
+            
+            <div id="lesson-content-area"></div>
+
+            <div class="nav-controls">
+                <button class="btn" id="prev-lesson-btn" onclick="navigateLesson(-1)">⬅ الدرس السابق</button>
+                <button class="btn" id="next-lesson-btn" onclick="navigateLesson(1)">الدرس التالي ➡</button>
+            </div>
+        </section>
+
+        <section id="quiz-setup" class="card">
+            <h2>📝 اختبار جافا سكريبت التفاعلي الشامل (50 سؤال)</h2>
+            <p>يرجى إدخال اسمك ثلاثي.</p>
+            <div class="input-group">
+                <label for="student-name-input">اسم الطالب / الطالبة:</label>
+                <input type="text" id="student-name-input" placeholder="اكتب اسمك الثلاثي هنا...">
+            </div>
+            <button class="btn" style="width: 100%; margin: 10px 0;" onclick="startQuiz()">ابدأ الاختبار التفاعلي الآن 🚀</button>
+        </section>
+
+        <section id="quiz-container" class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 id="question-title">السؤال الحالي:</h2>
+                <span class="badge" id="quiz-progress">السؤال 1 من 50</span>
+            </div>
+            
+            <div id="dynamic-quiz-area"></div>
+
+            <div id="feedback-area"></div>
+
+            <div class="nav-controls">
+                <button class="btn" id="prev-quiz-btn" onclick="navigateQuiz(-1)">السابق</button>
+                <button class="btn btn-check" id="check-ans-btn" onclick="checkCurrentAnswer()">التحقق من الإجابة 🔍</button>
+                <button class="btn" id="next-quiz-btn" onclick="navigateQuiz(1)">التالي</button>
+            </div>
+
+            <button type="button" class="btn" style="background-color: var(--success-color); width: 100%; margin-top: 25px;" onclick="submitQuiz()">تأكيد إنهاء الاختبار بالكامل وإرسال الإجابات ✔</button>
+        </section>
+
+        <section id="result-container" class="card">
+            <h2>🎉 نتيجة الاختبار النهائية</h2>
+            <p id="score-summary"></p>
+
+            <div class="certificate-box" id="certificate">
+                <h2>تقرير الأكاديمية الرسمي</h2>
+                <p>تقرير شامل بأن الطالب/الطالبة:</p>
+                <div class="student-name" id="cert-name">طالب أكاديمية مستر روبوت</div>
+                <p>قد أتم الواجبات والاختبار لـ <b>مبادئ لغة JavaScript الأساسية والتصحيح التفاعلي المطور</b></p>
+                <p id="cert-score">بدرجة: 100%</p>
+                <div style="margin-top: 30px; font-size: 0.9rem; color: #8892b0;">تم الاعتماد ومراجعة الأداء برمجياً بنجاح 🤖</div>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn btn-whatsapp" onclick="shareToWhatsApp()">إرسال التقرير على الواتساب 📱</button>
+                <button class="btn" style="background-color: #6e7681;" onclick="location.reload()">إعادة الاختبار والدروس 🔄</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- أولاً: مصفوفة الشرح التفاعلي كاملة (40 نقطة فريدة ومبتكرة) ---
+        const lessonsData = [
+            {
+                title: "1. مفهوم المتغيرات (Variables) 📦",
+                level: "Beginner",
+                code: `let box;\nbox = "Robot";\nconsole.log(box);`,
+                concept: "المتغيرات هي حاويات أو صناديق نستخدمها لتخزين البيانات والمعلومات في الذاكرة للرجوع إليها لاحقاً.",
+                realWorld: "مثل صندوق الألعاب الذي تضع فيه أغراضك وتكتب عليه اسماً لتعرفه لاحقاً.",
+                breakdown: ["السطر الأول يحجز مكاناً بالذاكرة باسم box.", "السطر الثاني يخزن النص داخل الصندوق.", "السطر الثالث يطبع محتوى الصندوق."],
+                mental: "المتغير بمثابة عنوان يسهل علينا الوصول للمعلومة المخبأة في ذاكرة الحاسوب العشوائية.",
+                mistake: "محاولة استخدام متغير قبل الإعلان عنه يسبب خطأ فورياً.",
+                pro: "اختر دائماً أسماء متغيرات واضحة تعبر عن محتواها لتسهيل قراءة كودك.",
+                challenge: "غير اسم المتغير من box إلى myBag واطبعه."
+            },
+            {
+                title: "2. تعيين المتغيرات بـ let 🔑",
+                level: "Beginner",
+                code: `let studentName = "Andrew";\nconsole.log(studentName);`,
+                concept: "نستخدم الكلمة المحجوزة let للإعلان عن متغير جديد يمكن تغيير قيمته في أي وقت لاحق من البرنامج.",
+                realWorld: "مثل كتابة اسمك على الكشكول الدراسي عند بدء العام الجديد.",
+                breakdown: ["أعلنا عن متغير studentName وقمنا بحجز قيمته النصية مباشرة.", "السطر الثاني يعرض الاسم بالكونسول."],
+                mental: "الكلمة let تعني 'اسمح لي بإنشاء صندوق متغير جديد'.",
+                mistake: "تكرار كتابة let لنفس المتغير مرتين في نفس النطاق يسبب خطأ SyntaxError.",
+                pro: "تعتبر let هي الطريقة القياسية والأكثر أماناً لتعريف المتغيرات القابلة للتحديث.",
+                challenge: "قم بتغيير الاسم النصي إلى اسمك الثلاثي وشغل الكود الفوري."
+            },
+            {
+                title: "3. إعادة تعيين المتغيرات (Reassignment) 🔄",
+                level: "Beginner",
+                code: `let score = 50;\nscore = 90;\nconsole.log(score);`,
+                concept: "يمكننا تغيير القيمة المخزنة داخل متغير let ببساطة عن طريق كتابة اسمه مجدداً وعلامة = دون تكرار كلمة let.",
+                realWorld: "مثل تغيير نتيجتك في اللعبة عند كسب نقاط إضافية في المستوى الثاني.",
+                breakdown: ["السطر الأول يبدأ النتيجة بـ 50.", "السطر الثاني يستبدل الـ 50 بالـ 90 تماماً.", "السطر الثالث يطبع القيمة الأخيرة فقط وهي 90."],
+                mental: "الذاكرة تمسح القيمة القديمة للمتغير وتضع القيمة الجديدة مكانها تلقائياً.",
+                mistake: "إعادة كتابة كلمة let عند الرغبة في تحديث القيمة فقط.",
+                pro: "إعادة التعيين تمنح البرامج الديناميكية وتجعل الكود مرناً للغاية.",
+                challenge: "قم بتعديل كود التحديث ليكون score = 100 وشاهد المخرج الجميل."
+            },
+            {
+                title: "4. تتبع تبديل القيم المتغيرة 🎭",
+                level: "Beginner",
+                code: `let weapon = "Sword";\nweapon = "Laser";\nconsole.log(weapon);`,
+                concept: "تأكيد أن الكود يقرأ من الأعلى للأسفل ويأخذ آخر قيمة تم تعيينها للصندوق المخزن.",
+                realWorld: "تغيير السلاح الحالي للبطل داخل ألعاب الأكشن عندما يلتقط سلاحاً مطوراً.",
+                breakdown: ["بدأنا بسلاح السيف.", "تم استبداله فوراً بسلاح الليزر الفتاك.", "انتهت الطباعة بالليزر."],
+                mental: "المتغير يحمل دائماً حالة واحدة حية، وهي الحالة الأحدث زمنياً في السطور.",
+                mistake: "توقع طباعة السلاحين معاً، المتغير يحتفظ بقيمة واحدة فقط.",
+                pro: "التحديث المستمر للحالات هو أساس برمجة الألعاب التفاعلية.",
+                challenge: "أضف سطر تعيين ثالث واجعل السلاح النهائي 'Rocket'."
+            },
+            {
+                title: "5. الشرط البسيط if else 🚦",
+                level: "Beginner",
+                code: `let age = 20;\nif (age >= 18) {\n  console.log("Allowed");\n} else {\n  console.log("Denied");\n}`,
+                concept: "الجملة الشرطية تسمح للبرنامج باتخاذ قرارات؛ تنفيذ كود معين إذا تحقق الشرط، أو كود آخر البديل في حال لم يتحقق.",
+                realWorld: "إشارة المرور: إذا كانت خضراء تحرك، وإلا قف فوراً.",
+                breakdown: ["فحصنا هل العمر أكبر من أو يساوي 18؟", "بما أن الـ 20 تحقق الشرط، نفذ كونسول Allowed وتجاهل كود else تماماً."],
+                mental: "البرمجة ليست خطاً مستقيماً، الشرط يصنع تفرعات ومسارات ذكية للكود.",
+                mistake: "نسيان الأقواس الدائرية حول الشرط المراد فحصه () أو الأقواس المتعرجة للأوامر {}.",
+                pro: "الـ else هي خط الدفاع البديل الذي يضمن عمل البرنامج عند فشل الشرط الأساسي.",
+                challenge: "غير قيمة العمر إلى 15 لتشاهد خروج رسالة Denied بالكونسول."
+            },
+            {
+                title: "6. التحكم بالدرجات عبر if else 🎓",
+                level: "Beginner",
+                code: `let grade = 75;\nif (grade >= 50) {\n  console.log("Pass");\n} else {\n  console.log("Fail");\n}`,
+                concept: "تطبيق المسار الثنائي (if / else) لتصنيف نجاح أو رسوب الطلاب بناءً على قيم متغيرة.",
+                realWorld: "نظام إظهار النتيجة بموقع وزارة التربية والتعليم للطلاب.",
+                breakdown: ["الشرط يفحص الـ 75 هل هي أكبر من أو تساوي 50؟ نعم صحيح.", "تطبع كلمة Pass بنجاح."],
+                mental: "إذا كانت نتيجة الشرط true ندخل الصندوق الأول، وإذا كانت false نذهب تلقائياً لـ else.",
+                mistake: "وضع علامة فاصلة منقوطة بعد قوس الـ if مباشرة مما يعطل منطق الفحص.",
+                pro: "الشروط تجعل برامجك تبدو ذكية وتفكر كالبشر تماماً.",
+                challenge: "اجعل درجة الطالب 40 وتأكد من ظهور كلمة Fail بالمحرر التفاعلي."
+            },
+            {
+                title: "7. الشرط الممتد else if 🗺️",
+                level: "Beginner",
+                code: `let speed = 100;\nif (speed > 120) {\n  console.log("Dangerous");\n} else if (speed > 80) {\n  console.log("Normal");\n} else {\n  console.log("Slow");\n}`,
+                concept: "عندما يكون لدينا أكثر من خيارين، نستخدم else if لطلب فحص شرط آخر جديد إذا فشل الشرط الأول مباشرة.",
+                realWorld: "تعديل تقييم سرعة السيارات برادارات الطرق السريعة وتحديد المخالفات.",
+                breakdown: ["السرعة 100 ليست أكبر من 120 (فشل الشرط الأول).", "انتقل لـ else if ووجد أن 100 أكبر من 80 (تحقق الثاني)، فطبع Normal."],
+                mental: "البرنامج يمر على الشروط بالترتيب، وبمجرد عثوره على شرط صحيح ينفذه ويخرج من الهيكل بالكامل.",
+                mistake: "كتابة elseif ككلمة واحدة ملتصقة، الصواب ترك مسافة بين الكلمتين دائماً.",
+                pro: "يمكنك تكرار أسطر else if بالعدد الذي تريده لتغطية كافة الاحتمالات الممكنة.",
+                challenge: "غير السرعة إلى 140 لترى تحذير المخالفة المرورية Dangerous."
+            },
+            {
+                title: "8. تصنيف الحسابات المتقدم بـ else if 💎",
+                level: "Beginner",
+                code: `let points = 15;\nif (points >= 20) {\n  console.log("Gold");\n} else if (points >= 10) {\n  console.log("Silver");\n} else {\n  console.log("Bronze");\n}`,
+                concept: "توزيع مستويات وجوائز المستخدمين بدقة برمجية عبر اختبار نطاقات رقمية متعددة.",
+                realWorld: "تقسيم الميداليات والكؤوس في مسابقات البرمجة العالمية والألعاب الإلكترونية.",
+                breakdown: ["الـ 15 لا تحقق شرط الذهب.", "لكنها تحقق شرط الفضة (أكبر من 10)، فيتم منح المستخدم وسام Silver."],
+                mental: "التنظيم الهرمي للشروط يمنع التداخل ويضمن حصول كل مستخدم على تقييمه بدقة.",
+                mistake: "ترتيب النطاقات بشكل عشوائي كوضع الرقم الأصغر أولاً، مما يفسد منطق الفحص الحسابي.",
+                pro: "ابدأ دائماً بالشروط الأكثر دقة والأرقام الأكبر عند الفحص التنازلي.",
+                challenge: "اجعل النقاط 5 لتشاهد كيف يحصل المستخدم على الوسام البرونزي Bronze."
+            },
+            {
+                title: "9. الشروط المتعددة المنفصلة بـ if فقط 🧱",
+                level: "Beginner",
+                code: `let num = 10;\nif (num > 5) { console.log("A"); }\nif (num > 2) { console.log("B"); }`,
+                concept: "عند كتابة عبارات if مستقلة تحت بعضها بدون else، فإن الكمبيوتر سيفحصها جميعاً وينفذ كل واحدة تحقق شرطها بشكل منفصل تماماً.",
+                realWorld: "مثل مراجعة قائمة المشتريات: هل اشتريت الخبز؟ نعم. هل اشتريت الحليب؟ نعم. كل فحص مستقل عن الآخر.",
+                breakdown: ["الشرط الأول صحيح (10 > 5) فيطبع A.", "الشرط الثاني صحيح أيضاً (10 > 2) فيطبع B.", "النتيجة طباعة الحرفين معاً."],
+                mental: "في الـ if المستقلة، كل شرط يعتبر معركة برمجية منفصلة لا علاقة لها بما فوقها أو تحتها.",
+                mistake: "الخلط بين العبارات المنفصلة وعبارات else if المترابطة التي تكتفي بمسار واحد صحيح.",
+                pro: "استخدم الشروط المنفصلة إذا كنت تريد تجميع ميزات أو فحص معايير غير متعارضة معاً.",
+                challenge: "غير الرقم إلى 3 لتشاهد طباعة الحرف B فقط بالمحرر."
+            },
+            {
+                title: "10. تجميع الإنجازات بـ if المستقلة 🏅",
+                level: "Beginner",
+                code: `let levelsSolved = 3;\nif (levelsSolved >= 1) { console.log("Badge 1"); }\nif (levelsSolved >= 3) { console.log("Badge 2"); }`,
+                concept: "استخدام الشروط المستقلة لمنح المستخدم شارات متعددة بناءً على مجموع نقاطه التراكمية في البرنامج.",
+                realWorld: "منح مكافآت للمطورين في منصات العمل عند إتمام المهمة الأولى ثم المهمة الثالثة.",
+                breakdown: ["المستخدم حل 3 مستويات.", "الشرط الأول محقق فيأخذ الشارة الأولى.", "الشرط الثاني محقق فيأخذ الشارة الثانية أيضاً."],
+                mental: "إذا كانت نتيجة الشرط true ندخل الصندوق الأول، وإذا كانت false نذهب تلقائياً لـ else.",
+                mistake: "استخدام else if هنا كان سيحرم المستخدم من الشارة الثانية لأن الشرط الأول سيكتفي بالخروج الحصري.",
+                pro: "فهم الفارق الجوهري بين الشروط المتصلة والمنفصلة هو قمة الاحتراف البرمجي.",
+                challenge: "اجعل المستويات المحلولة مستوى 1 فقط وشاهد اختفاء الشارة الثانية تلقائياً."
+            },
+            {
+                title: "11. الرابط المنطقي AND (&&) 🤝",
+                level: "Beginner",
+                code: `let hasTicket = true;\nlet isClean = true;\nif (hasTicket && isClean) {\n  console.log("Enter");\n}`,
+                concept: "الرابط المنطقي AND ويمثل في جافا سكريبت بالرمز &&، وهو يشترط نجاح وتحقق جميع الشروط معاً لإعطاء نتيجة true إجمالية.",
+                realWorld: "لدخول الطائرة: يجب أن تملك التذكرة (AND) أن يكون جواز سفرك سارياً، غياب أحدهما يمنعك تماماً.",
+                breakdown: ["الشرط الأول true والشرط الثاني true.", "بما أن كلا الطرفين صحيحين، تم السماح بالدخول وطباعة Enter."],
+                mental: "الرمز && يكره الـ false، إذا كان هناك طرف واحد خاطئ فالنتيجة الكلية تنهار فوراً.",
+                mistake: "كتابة كلمة and كحروف نصية بدلاً من الرمز البرمجي القياسي المعتمد &&.",
+                pro: "استخدم && لحماية العمليات الحيوية التي تتطلب تضافر عدة شروط أمان كاملة.",
+                challenge: "غير قيمة isClean إلى false وشاهد امتناع الكونسول عن الطباعة."
+            },
+            {
+                title: "12. فحص الهوية والسن بـ && 🛡️",
+                level: "Beginner",
+                code: `let isRegistered = true;\nlet userAge = 20;\nif (isRegistered && userAge >= 18) {\n  console.log("Welcome Robot");\n}`,
+                concept: "دمج الشروط المنطقية البوليانية مع العلاقات الرقمية المقارنة في سطر فحص واحد مدمج بـ &&.",
+                realWorld: "التسجيل في الكورسات المتقدمة بالأكاديمية التي تشترط الحساب المفعل والسن المناسب.",
+                breakdown: ["الحساب مسجل (true) والعمر أكبر من 18 (true).", "الطرفان صلبان وصحيحان، تخرج رسالة الترحيب بنجاح."],
+                mental: "يمكن دمج أنواع مختلفة من البيانات داخل شروط && طالما تنتهي بـ true أو false.",
+                mistake: "نسيان كتابة المتغير بالكامل في الطرف الثاني وكتابة المقارنة مجردة بدون هدف.",
+                pro: "الرابط && يختصر كتابة شروط متداخلة معقدة (Nested if) ويوفر سطور الكود البصرية.",
+                challenge: "اجعل العمر 16 وشغل المحرر لترى كيف يرفض الكود تمرير العبارة."
+            },
+            {
+                title: "13. الرابط المنطقي OR (||) 🧭",
+                level: "Beginner",
+                code: `let hasCash = false;\nlet hasCard = true;\nif (hasCash || hasCard) {\n  console.log("Buy");\n}`,
+                concept: "الرابط المنطقي OR ويمثل بالرمز ||، ويكتفي بتحقق شرط واحد فقط صحيح من بين الخيارات المتاحة ليعطي true إجمالية.",
+                realWorld: "عند الدفع في السوبرماركت: يمكنك الدفع كاش (OR) بالفيزا كارد، يكفي وجود وسيلة واحدة للشراء.",
+                breakdown: ["الكاش غير موجود (false) لكن الكارت موجود (true).", "بما أن وسيلة واحدة نجحت، وافق الكود وطبع عبارة الشراء Buy."],
+                mental: "الرمز || طيب للغاية ويحب الـ true، يكفي وميض واحد صحيح ليمر الكود بسلام عبر التفرع.",
+                mistake: "استخدم الحروف الكبيرة للرابط أو لغة خاطئة لخطوط الـ Pipes المتوازية ||.",
+                pro: "الرمز || يكتب بالضغط على Shift + حرف \ في معظم لوحات المفاتيح القياسية للمطورين.",
+                challenge: "اجعل الخيارين false وشاهد كيف يعجز البرنامج عن إتمام عملية الشراء."
+            },
+            {
+                title: "14. مرونة تسجيل الدخول عبر || 🚪",
+                level: "Beginner",
+                code: `let loginWithGoogle = true;\nlet loginWithEmail = false;\nif (loginWithGoogle || loginWithEmail) {\n  console.log("Logged In");\n}`,
+                concept: "تطبيق التخيير البرمجي لمساعدة المستخدمين على الولوج للموقع بأكثر من طريقة متاحة وسهلة.",
+                realWorld: "شاشة تسجيل الدخول في منصة الأكاديمية أو تطبيقات الموبايل الحديثة.",
+                breakdown: ["سجل عبر جوجل بنجاح (true)، وتجاهل البريد العادي (false).", "تم السماح بالدخول للمنصة وظهور الإشعار."],
+                mental: "الخيارات المتعددة ترفع من جودة البرامج وتسهل حياة المستخدم النهائي بشكل ملحوظ.",
+                mistake: "توقع أن كلا الخيارين يجب أن يكونا true، الشرط يكتفي بواحد فقط كحد أدنى.",
+                pro: "اجعل دائماً واجهات تطبيقاتك مرنة وتدعم خيارات بديلة للمسجلين والأعضاء.",
+                challenge: "غير حالة جوجل لـ false واجعل البريد true وتأكد من استمرار عمل الكود بنجاح."
+            },
+            {
+                title: "15. أسبقية الروابط المنطقية والتأكيد 🚀",
+                level: "Beginner",
+                code: `let score1 = 90;\nlet score2 = 40;\nif (score1 >= 80 || score2 >= 80) {\n  console.log("Passed Quiz");\n}`,
+                concept: "استخدام الروابط التخييرية للتحقق من اجتياز الطالب لأحد الاختبارات المؤهلة على الأقل للشهادة المعتمدة.",
+                realWorld: "دخول المرحلة التالية من المسابقات بمجرد النجاح في الجولة الأولى أو الجولة الثانية البديلة.",
+                breakdown: ["الاختبار الأول ممتاز 90 (true). الاختبار الثاني ضعيف 40 (false).", "الرابط التخيلي || يمرر النتيجة ويحتفل بالطالب المتميز بالكونسول."],
+                mental: "البرمجة تنظر للنتائج النهائية لكل طرف قبل دمج المسارات الشرطية الكبرى.",
+                mistake: "الخلط الدائم بين استخدام && واستخدام || في النظم التعليمية الحساسة.",
+                pro: "تحديد الرابط الصحيح ينقذ الكود من الثغرات المنطقية والنتائج العشوائية المربكة.",
+                challenge: "اجعل النتيجتين تحت الـ 50 وراقب سلوك المتصفح الذكي للأكاديمية."
+            },
+            {
+                title: "16. متغيرات النصوص الفارغة (Strings) 📄",
+                level: "Beginner",
+                code: `let message = "";\nmessage = "Hello Robot";\nconsole.log(message);`,
+                concept: "يمكن بدء المتغير بنص فارغ تماماً لتجهيز المساحة، ثم ملئه بالبيانات النصية لاحقاً حسب تفاعل المستخدم.",
+                realWorld: "صندوق كتابة المنشور الجديد، يكون فارغاً حتى يبدأ المستخدم بكتابة الحروف.",
+                breakdown: ["حجزنا نصاً فارغاً بالسطر الأول.", "قمنا بتعبئته بعبارة الترحيب بالسطر الثاني وطباعته بنجاح."],
+                mental: "النصوص الفارغة قيم صالحة ومستعملة بكثرة كحالات ابتدائية في لغات البرمجة.",
+                mistake: "نسيان علامات التنصيص مما يثبت خطأ في البنية ويوقف ملف الـ JavaScript.",
+                pro: "ابدأ دائماً متغيرات النصوص بقيم فارغة لتجنب ظهور كلمة undefined المزعجة للمستخدمين.",
+                challenge: "اكتب رسالة نصية مخصصة من تصميمك داخل المتغير واطبعها فورا."
+            },
+            {
+                title: "17. المتغيرات الرقمية الابتدائية 🔢",
+                level: "Beginner",
+                code: `let counter = 0;\ncounter = counter + 1;\nconsole.log(counter);`,
+                concept: "بدء العدادات بالرقم صفر، ثم زيادة المتغير بالاعتماد على قيمته السابقة المخزنة بالذاكرة العشوائية.",
+                realWorld: "عداد كبسولات الشفاء في الألعاب أو عداد زوار المواقع الإلكترونية بالثواني.",
+                breakdown: ["بدأنا العداد من الصفر المطلق.", "أخذنا الصفر وأضفنا عليه 1 وخزناه مجدداً في نفس الصندوق counter.", "النتيجة 1."],
+                mental: "المتغير يمكن أن يتواجد في طرفي المعادلة، حيث يتم حساب الطرف الأيمن أولاً ثم التخزين باليسار.",
+                mistake: "نسيان البدء بالقيمة صفر ومحاولة زيادة متغير فارغ يسبب خروج القيمة الغريبة NaN.",
+                pro: "السطر الثاني يمكن اختصاره برمجياً بكتابة counter++ كطريقة ذكية واحترافية.",
+                challenge: "كرر سطر الزيادة مرة ثانية لترى قفز العداد للرقم 2 بالمخرجات الحية."
+            },
+            {
+                title: "18. الشروط المتداخلة العميقة (Nested if) 🕸️",
+                level: "Beginner",
+                code: `let isOnline = true;\nlet hasMic = true;\nif (isOnline) {\n  if (hasMic) { console.log("Can Speak"); }\n}`,
+                concept: "وضع جملة شرطية بالكامل داخل كتلة جملة شرطية أخرى، ولا يتم الوصول للداخلية إلا بنجاح الخارجية أولاً.",
+                realWorld: "دخول غرفة المحادثة الصوتية: يجب أن تكون متصلاً أولاً (if) ثم تملك ميكروفوناً يعمل بانتظام.",
+                breakdown: ["دخلنا من البوابة الأولى لأن المطور متصل أونلاين.", "وجدنا فحص المايك ونجح أيضاً، فطبعنا القدرة على الحديث Can Speak."],
+                mental: "الشروط المتداخلة تصنع مسارات متسلسلة ودقيقة جداً للتحقق والتدقيق البرمجي التفاعلي.",
+                mistake: "كثرة الشروط المتداخلة بشكل مبالغ فيه يجعل الكود مقعداً وصعب الصيانة ويسمى هرم الجحيم.",
+                pro: "يفضل المطورون غالباً استبدال الشروط المتداخلة برابط && واحد لتبسيط المظهر وقراءة الكود.",
+                challenge: "اجعل المتغير الأول false وتأكد أن الكمبيوتر لم ينظر للشرط الثاني إطلاقاً."
+            },
+            {
+                title: "19. فحص القيم البوليانية (Boolean) 🎯",
+                level: "Beginner",
+                code: `let isPremium = true;\nif (isPremium) {\n  console.log("VIP Content");\n} else {\n  console.log("Free Content");\n}`,
+                concept: "المتغيرات البوليانية (true/false) لا تحتاج لكتابة علامات مقارنة مثل == true، يكفي وضع اسم المتغير مباشرة بالشرط.",
+                realWorld: "التحقق من اشتراك المستخدم الذهبي في قنوات البث الحية لمشاهدة المباريات الحصرية.",
+                breakdown: ["وضعنا المتغير مباشرة داخل قوس الـ if.", "بما أنه true دخلنا المسار الفاخر VIP وطبعنا الرسالة."],
+                mental: "الـ if تبحث دائماً عن قيمة بوليانية نهائية، وطالما المتغير جاهز فلا داعي للتكرار والمقارنة الزائدة.",
+                mistake: "وضع القيمة true داخل علامات تنصيص \"true\" مما يحولها لنص ميت ويفسد المنطق الشرطي البولياني.",
+                pro: "كتابة الشرط كـ if (isPremium) تعكس نظافة الكود واحترافية المطور المطور للأكاديمية.",
+                challenge: "غير الاشتراك لـ false وشاهد الانتقال الفوري لخدمات المحتوى المجاني البديل."
+            },
+            {
+                title: "20. النفي المنطقي الذكي (NOT) 🛑",
+                level: "Beginner",
+                code: `let isLocked = false;\nif (!isLocked) {\n  console.log("Open Area");\n}`,
+                concept: "علامة التعجب (!) تسمى معامل النفي (NOT)، وتقوم بعكس القيمة البوليانية تماماً؛ تحول الـ false إلى true والعكس صحيح.",
+                realWorld: "فتح قفل الباب التلقائي: إذا كان الباب (ليس مغلقاً) اسمح للزوار بالمرور والدخول بحرية.",
+                breakdown: ["المتغير قيمته false.", "علامة التعجب قبل الاسم عكست القيمة لتصبح true إجمالية، فتم الدخول للشرط وطباعة العبارة."],
+                mental: "معامل النفي هو أداة سحرية لفحص غياب الميزات أو الحالات المعاكسة في الأكواد البرمجية.",
+                mistake: "وضع علامة التعجب بعد المتغير وليس قبله مما يسبب انهيار الكود فورا بـ Error خطير.",
+                pro: "استخدم النفي بحذر لتجعل الجمل الشرطية تقرأ مثل اللغة الإنجليزية العادية بوضوح تام.",
+                challenge: "غير المتغير ليكون true وشاهد كيف يتم إغلاق المنطقة المفتوحة تماماً بالمتصفح."
+            },
+            {
+                title: "21. المتغيرات والعمليات الرياضية المشتركة ➕",
+                level: "Beginner",
+                code: `let price = 100;\nlet tax = 14;\nlet total = price + tax;\nconsole.log(total);`,
+                concept: "يمكننا دمج قيم المتغيرات المختلفة معاً لإنشاء متغير ثالث يحمل ناتج المعالجة الحسابية المشتركة بينهما.",
+                realWorld: "حساب السعر الكلي لفاتورة الشراء مضافاً إليها ضريبة القيمة المضافة بمتاجر التجزئة.",
+                breakdown: ["حجزنا السعر الأساسي والضريبة بصناديق منفصلة.", "جمعنا محتوى الصندوقين بالثالث وطبعنا القيمة النهائية 114 بلمح البصر."],
+                mental: "المتغيرات مرنة وتتعاون حسابياً لإنشاء برامج مالية وإحصائية غاية في الدقة والقوة الهندسية.",
+                mistake: "محاولة جمع متغير رقمي مع متغير نصي بالخطأ مما يسبب الالتصاق بدلاً من الحساب الرياضي النظيف.",
+                pro: "تأكد من نوع البيانات دائماً قبل إجراء العمليات الحسابية الحساسة لضمان سلامة الأرقام.",
+                challenge: "غير قيمة الضريبة لتصبح 20 واحسب السعر الإجمالي الجديد بالمحرر الفوري للأكاديمية."
+            },
+            {
+                title: "22. الشرط else if المتتابع والمتنوع 📊",
+                level: "Beginner",
+                code: `let light = "Yellow";\nif (light === "Red") {\n  console.log("Stop");\n} else if (light === "Yellow") {\n  console.log("Ready");\n} else {\n  console.log("Go");\n}`,
+                concept: "استخدام مقارنة النصوص الدقيقة (===) داخل سلاسل الشروط المتتابعة لتوجيه الأنظمة الآلية والميكانيكية الذكية.",
+                realWorld: "أنظمة التحكم الآلي بالإشارات الضوئية والقطارات ومترو الأنفاق في العاصمة.",
+                breakdown: ["الضوء ليس أحمر.", "انتقل للفحص الثاني وجده أصفر تماماً، فطبع أمر الاستعداد التفاعلي Ready وتوقف عن فحص الباقي."],
+                mental: "علامة الثلاث يساوي (===) تعني المقارنة المتطابقة تماماً في القيمة والنوع دون أدنى تهاون برمجي.",
+                mistake: "استخدام علامة يساوي واحدة (=) بالشرط، وهذا خطأ جسيم لأنه يقوم بالتعيين والملء وليس الفحص والمقارنة.",
+                pro: "المطور المحترف يستعمل دائماً === لمنع الأخطاء الخفية والمحيرة أثناء مراجعة وفحص الأكواد الكبرى.",
+                challenge: "غير المتغير للون الأخضر Green وشاهد الانتقال التلقائي لأمر التحرك والانطلاق الحاد."
+            },
+            {
+                title: "23. الشروط المستقلة لفحص المتغيرات المفردة 🎯",
+                level: "Beginner",
+                code: `let x = 15;\nif (x % 5 === 0) { console.log("DivBy5"); }\nif (x % 3 === 0) { console.log("DivBy3"); }`,
+                concept: "استخدام عبارات الفحص الفردية المتتالية للتحقق من خصائص متعددة ومختلفة لرقم وحيد في نفس دورة التنفيذ الحية.",
+                realWorld: "أنظمة تحليل البيانات الرياضية واللوغاريتمات للكشف عن الأرقام الأولية والمضاعفات المشتركة بذكاء.",
+                breakdown: ["الرقم 15 يقبل القسمة على 5 بدون باقٍ فيطبع العبارة الأولى.", "ويقبل القسمة على 3 أيضاً فيطبع الثانية بامتياز تتابع تفاعلي."],
+                mental: "علامة المئة (%) تعني باقي القسمة، وعندما تساوي صفر فهذا يثبت قبول الرقم للقسمة تماماً دون كسور.",
+                mistake: "اعتبار أن تحقق الشرط الأول سيلغي الثاني، هذا يحدث فقط في هيكل else if وليس بـ if المستقلة البسيطة.",
+                pro: "الشروط المستقلة تمنح المطورين قدرة خارقة على مراجعة وفحص ملفات البيانات بشكل تفصيلي ودقيق.",
+                challenge: "غير قيمة الرقم x ليكون 10 وراقب طباعة أي من العبارتين ستختفي فوراً من الكونسول."
+            },
+            {
+                title: "24. الرابط AND لتقييم درجات الأمان المطور 🔐",
+                level: "Beginner",
+                code: `let hasPassword = true;\nlet hasFingerprint = true;\nif (hasPassword && hasFingerprint) {\n  console.log("Phone Unlocked");\n}`,
+                concept: "تطبيق معايير الأمان الثنائي والتحقق الإلزامي من تواجد كافة عناصر الصلاحية لفتح الحسابات أو الهواتف الذكية الحية.",
+                realWorld: "فتح الهواتف الذكية الحديثة من خلال كلمة المرور وبصمة الإصبع معاً لحماية الخصوصية المطلقة.",
+                breakdown: ["الباسورد صحيح وبصمة الإصبع متوفرة ومؤكدة بالكامل.", "النتيجة النهائية true وتم فك تشفير وقفل الهاتف بنجاح ترحيبي."],
+                mental: "غياب أي معيار أمان يغلق البوابة تماماً، مما يمنع ثغرات الاختراق ويحفظ البيانات بكفاءة عالية.",
+                mistake: "توقع تمرير الكود عند تعطل البصمة، المعامل && صارم للغاية ولا يقبل التفاوض أو الحلول الوسطى بالشرط.",
+                pro: "صمم دائماً تطبيقاتك الحساسة بالاعتماد على روابط AND المنطقية لتوفير حماية قصوى وموثوقة للمشتركين.",
+                challenge: "اجعل أحد المتغيرين false وتأكد من صمود نظام الأمان وغلق الهاتف بالكامل في وجه الفحص البصري."
+            },
+            {
+                title: "25. مرونة الاختيار البرمجي بالرابط OR في الألعاب 🎮",
+                level: "Beginner",
+                code: `let hasElixir = true;\nlet hasDiamond = false;\nif (hasElixir || hasDiamond) {\n  console.log("Revive Hero");\n}`,
+                concept: "استخدام المعامل || للسماح للاعبين بمواصلة اللعب واستعادة طاقة البطل بأكثر من وسيلة إنقاذ بديلة ومتاحة بالحقيبة.",
+                realWorld: "أنظمة الألعاب الإستراتيجية الكبرى التي تدعم استمرار اللعب بالاعتماد على الجواهر أو جرعات السحر الشافية.",
+                breakdown: ["جرعة السحر متوفرة بالصندوق (true) والجواهر نفدت تماماً (false).", "بما أن وسيلة إنقاذ واحدة حية، تم إنعاش البطل فوراً Revive Hero."],
+                mental: "الرابط OR يمنح الألعاب سهولة ومرونة تمنع إحباط اللاعبين وتزيد من متعة وتجربة اللعب التفاعلية الفخمة.",
+                mistake: "الاعتقاد بأن || يوقف الكود عند أول قيمة false، هو يستمر في البحث حتى يعثر على true واحدة تنقذ الموقف بذكاء.",
+                pro: "استعمل || في كافة شاشات الاختيارات الحرة لتمنح عملائك ومستخدميك حرية الحركة والبدائل المناسبة.",
+                challenge: "اجعل جرعة السحر false أيضاً وشاهد سقوط البطل ونهاية اللعبة بامتناع الطباعة تماماً بالمحرر الحقيقي."
+            },
+            {
+                title: "26. تعيين وتعديل الحسابات بـ let 💰",
+                level: "Beginner",
+                code: `let wallet = 200;\nwallet = wallet - 50;\nconsole.log(wallet);`,
+                concept: "تأكيد فاعلية let في إدارة وتحديث الحسابات المالية باستمرار عن طريق عمليات الخصم المباشر وإعادة التعيين السريعة.",
+                realWorld: "محاكاة عمليات الشراء الحقيقية وخصم تمن المنتجات من المحفظة الإلكترونية الخاصة بالعملاء بالمتجر.",
+                breakdown: ["بدأت المحفظة بـ 200 جنيه.", "تم خصم 50 جنيهاً وتحديث الصندوق بالقيمة المتبقية فوراً.", "النتيجة النهائية هي 150 بالكونسول."],
+                mental: "القيمة الجديدة تمسح وتلغي وجود القيمة القديمة من الذاكرة العشوائية لتثبيت الموقف المالي الحالي بدقة وحسم.",
+                mistake: "استعمل كلمة let مجدداً في السطر الثاني مما يسبب تجميد الكود وظهور خطأ في البنية الأساسية للمتصفح.",
+                pro: "يمكن كتابة سطر الخصم بشكل مختصر واحترافي كالتالي wallet -= 50 لتوفير مساحات الكتابة البصرية للمطور.",
+                challenge: "اضف سطر خصم إضافي بقيمة 100 جنيه وشاهد تراجع الرصيد للرقم 50 فوراً بساحة الكود التفاعلي للأكاديمية."
+            },
+            {
+                title: "27. الشرط الثنائي لمراقبة السن القانوني للقيادة 🚗",
+                level: "Beginner",
+                code: `let age = 16;\nif (age >= 18) {\n  console.log("Drive Allowed");\n} else {\n  console.log("Drive Prohibited");\n}`,
+                concept: "تطبيق المسار الثنائي (if / else) لفرض القوانين واللوائح الصارمة بناءً على الفحص الدقيق للمتغيرات العمرية الحقيقية.",
+                realWorld: "أنظمة استخراج رخص القيادة الإلكترونية للمواطنين.",
+                breakdown: ["العمر الحالي للمواطن 16 وهو ليس أكبر من أو يساوي 18 (الشرط خاطئ تماماً).", "يتم الانتقال الفوري لـ else وحظر القيادة بنجاح Drive Prohibited."],
+                mental: "الـ else هي شبكة الأمان الحتمية التي تمنع مرور أي معاملات غير مستوفية للشروط القياسية المحددة بالكود البرمجي.",
+                mistake: "نسيان الأقواس الدائرية حول الشرط المراد فحصه () أو استخدام علامة المقارنة بشكل معكوس يفسد المنطق تماماً.",
+                pro: "اجعل برامجك دائماً حازمة ومطابقة للوائح والقوانين لضمان سلامة وأمان المستخدمين في الحياة الواقعية واليومية.",
+                challenge: "ارفع عمر المواطن إلى 25 سنة وتأكد من قفز النظام تلقائياً لمنحه صلاحية القيادة القانونية الكاملة بالمحرر الحي."
+            },
+            {
+                title: "28. فحص الخصومات المتقدم بـ else if الهرمي 💸",
+                level: "Beginner",
+                code: `let cartTotal = 300;\nif (cartTotal >= 500) {\n  console.log("20% Discount");\n} else if (cartTotal >= 200) {\n  console.log("10% Discount");\n} else {\n  console.log("No Discount");\n}`,
+                concept: "بناء أنظمة تسعير تفاعلية ومرنة تمنح خصومات تصاعدية ومحفزة للعملاء بناءً على حجم وقيمة المشتريات الإجمالية.",
+                realWorld: "برمجة سلات المشتريات الذكية في المتاجر العالمية الكبرى لجذب وتحفيز المتسوقين باستمرار.",
+                breakdown: ["قيمة السلة 300 ليست أكبر من 500.", "لكنها أكبر من 200 (تحقق الفحص الثاني)، فتم منح العميل خصم 10% فوراً وعرض الإشعار."],
+                mental: "الترتيب الهبوطي للشروط يحمي المنطق المالي؛ لو وضعنا الـ 200 في الأول لتم تطبيق الخصم الأقل على أصحاب الفواتير الضخمة.",
+                mistake: "إهمال كتابة هيكل else النهائي مما يجعل الفواتير الصغيرة معلقة وبدون رسائل توضيحية مرنة بالواجهة الشخصية.",
+                pro: "صمم دائماً مساراتك المالية بترتيب هندسي دقيق يحفظ أموال المؤسسة ويحفز المشترين في آن واحد بكفاءة.",
+                challenge: "ارفع قيمة السلة إلى 600 جنيه وتأكد من قفز النظام تلقائياً لمنح العميل الخصم الأكبر والمتميز 20%."
+            },
+            {
+                title: "29. التحقق المنفصل من ميزات وصلاحيات اللاعب 🛡️",
+                level: "Beginner",
+                code: `let playerLevel = 12;\nif (playerLevel > 10) { console.log("Unlock Desert"); }\nif (playerLevel > 5) { console.log("Unlock Forest"); }`,
+                concept: "استخدام الفحوصات المستقلة بـ if المتتالية لفتح مناطق وميزات متعددة للاعب المتفوق دون إلغاء أي منها برمجياً.",
+                realWorld: "خرائط وأطوار الألعاب المفتوحة والألعاب الإستراتيجية التي تفتح مستوياتها تدريجياً وتراكمياً للبطل والمستخدم.",
+                breakdown: ["مستوى اللاعب الحالي 12.", "الشرط الأول صحيح فيفتح منطقة الصحراء.", "الشرط الثاني صحيح أيضاً فيفتح منطقة الغابات معاً في نفس الدورة الحية."],
+                mental: "الـ if المنفصلة تمنح مرونة تراكمية؛ حيث يحصل العميل على كافة الحقوق والميزات التي تناسب مستواه الحالي بالتوازي.",
+                mistake: "تحويل هذه الفحوصات لـ else if بالخطأ، مما يحرم اللاعب من دخول الغابات لأن الكود سيكتفي بفتح الصحراء ويخرج فورا.",
+                pro: "ادرس طبيعة اللعبة جيداً؛ الميزات التراكمية تتطلب دائماً شروطاً مستقلة ومنفصلة تماماً لضمان تجربة مستخدم ممتعة.",
+                challenge: "اجعل مستوى اللاعب 7 فقط وراقب تراجع صلاحياته واقتصارها على فتح منطقة الغابات Forest وحظر الصحراء تماماً."
+            },
+            {
+                title: "30. الرابط المنطقي AND للتحقق من شروط التخرج والشهادة 🎓",
+                level: "Beginner",
+                code: `let attendance = 90;\nlet examScore = 85;\nif (attendance >= 85 && examScore >= 50) {\n  console.log("Get Certificate");\n}`,
+                concept: "تطبيق الفحص الإلزامي بالمعامل && لضمان استحقاق الطالب لشهادة التخرج بناءً على معايير الحضور والنجاح الأكاديمي معاً.",
+                realWorld: "أنظمة التقييم والاعتماد البرمجي الآلي بالفصول الذكية وأكاديمية مستر روبوت لضمان جودة وتفوق الخريجين.",
+                breakdown: ["نسبة حضور الطالب متميزة 90 (true) ودرجة اختباره قوية 85 (true).", "الطرفان متكاملان ومحققان للشروط، تمنح الشهادة فوراً Get Certificate."],
+                mental: "المطور الحقيقي يضع قوانين صارمة لأكواد التقييم؛ التفوق يتطلب الالتزام بالحضور والنجاح الفعلي معاً بالمنصة التعليمية.",
+                mistake: "تغيير الرابط إلى || بالخطأ، مما يسمح لطالب غائب طوال العام بالحصول على الشهادة بمجرد دخول الاختبار بالصدفة.",
+                pro: "احمِ مصداقية تقاريرك وأنظمتك التعليمية باستخدام روابط AND الصارمة والموثوقة في تصفية النتائج الحيوية.",
+                challenge: "اجعل نسبة الحضور تتقلص إلى 60 وشاهد تجميد إصدار الشهادة وحجبها تماماً بالرغم من تفوقه بالاختبار النهائي."
+            },
+            {
+                title: "31. الرابط المنطقي OR لتأمين بدائل الاتصال بالشبكة 🌐",
+                level: "Beginner",
+                code: `let wifiConnected = false;\nlet mobileData = true;\nif (wifiConnected || mobileData) {\n  console.log("Internet Active");\n}`,
+                concept: "استخدام المعامل || لضمان استمرار عمل التطبيقات والخدمات الحية عبر توفير مسارات اتصال بديلة ومرنة للمستخدم.",
+                realWorld: "أنظمة الملاحة وتطبيقات الشات الذكية التي تحافظ على اتصالك بالخريطة سواء كنت على الواي فاي أو باقة الموبايل.",
+                breakdown: ["شبكة الواي فاي منقطعة (false) ولكن باقة الموبايل نشطة وتعمل (true).", "الرابط OR يمرر الاتصال بنجاح ويطبع الأمان الفوري Internet Active."],
+                mental: "المرونة تمنع انهيار التطبيقات؛ توفير مسار بديل يضمن بقاء المستخدم داخل الخدمة دون إزعاج أو انقطاع مفاجئ بالصفحة.",
+                mistake: "استعمل الرموز الخاطئة للرابط أو افتراض وجوب عمل الشبكتين معاً، || يكتفي بوجود نافذة اتصال واحدة حية ومؤكدة.",
+                pro: "صمم دائماً البنى التحتية لبرامجك بالاعتماد على خيارات الطوارئ البديلة لرفع كفاءة وموثوقية النظام البرمجي للعملاء.",
+                challenge: "تعطيل باقة الموبايل أيضاً واجعلها false لتشاهد كيف ينقطع الاتصال تماماً وتتوقف الخدمات بالكونسول التفاعلي."
+            },
+            {
+                title: "32. تحديث عداد المحاولات وإعادة التعيين بـ let 🎯",
+                level: "Beginner",
+                code: `let attemptsLeft = 3;\nattemptsLeft = attemptsLeft - 1;\nconsole.log(attemptsLeft);`,
+                concept: "استخدام طاقات التحديث لمتغيرات let لإدارة وتتبع عدد المحاولات المتبقية للمستخدمين داخل النظم والألعاب الحساسة.",
+                realWorld: "تقليل عدد محاولات إدخال الرقم السري الخاطئ ببطاقات الصراف الآلي (ATM) لحماية الحسابات.",
+                breakdown: ["بدأ المستخدم بـ 3 محاولات كاملة.", "عند ارتكاب خطأ تم إنقاص محاولة وتحديث الصندوق بالباقي فورا.", "النتيجة النهائية هي محاولتان."],
+                mental: "الذاكرة تحذف القيمة الأصلية وتثبت الموقف الحالي لضمان دقة الرصد الأمني والتفاعلي طوال فترة التشغيل الحية.",
+                mistake: "إعادة كتابة كلمة let بالسطر الثاني مما يسبب تجميد الكود وظهور خطأ في البنية الأساسية للمتصفح المطور للأكاديمية.",
+                pro: "يمكن اختصار سطر الإنقاص بشكل احترافي ومباشر بكتابة attemptsLeft-- لتوفير مساحات الكتابة البرمجية المتميزة.",
+                challenge: "كرر سطر الإنقاص مرتين متتاليتين وشاهد وصول محاولات المستخدم للرقم صفر المطلق بساحة الكود الفورية."
+            },
+            {
+                title: "33. الشرط الثنائي لتقييم مستويات شحن الطاقة 🔋",
+                level: "Beginner",
+                code: `let battery = 15;\nif (battery <= 20) {\n  console.log("Low Battery");\n} else {\n  console.log("Battery OK");\n}`,
+                concept: "استخدام المقارنات الرقمية الصغرى (<=) لتنبيه الأنظمة والمستخدمين بضرورة اتخاذ إجراءات عاجلة لحفظ الحالة الحية.",
+                realWorld: "أنظمة توفير الطاقة الذكية في الهواتف الذكية التي تعمل تلقائياً عند تراجع الشحن بوضوح.",
+                breakdown: ["شحن البطارية الحالي 15 وهو أصغر من 20 (الشرط صحيح تماماً).", "تم الدخول للمسار الأول بنجاح وإصدار التحذير المطور Low Battery."],
+                mental: "البرامج الذكية تراقب المؤشرات الحيوية باستمرار وتتدخل بالشروط لحماية أجهزة المستخدمين من الإغلاق المفاجئ.",
+                mistake: "عكس اتجاه علامة الأصغر من أو يساوي لتصبح => وهو رمز خاطئ تماماً ويسبب انهيار الفحص الشرطي الفوري.",
+                pro: "اكتب دائماً علامة الأصغر أو الأكبر قبل علامة اليساوي بدقة هندسية قياسية لضمان سلامة قراءة وتشغيل الأكواد.",
+                challenge: "ارفع شحن البطارية إلى 80 وشاهد كيف ينتقل نظام الهاتف تلقائياً للحالة المستقرة المطمئنة Battery OK."
+            },
+            {
+                title: "34. تصنيف فئات الشحن والتوصيل بـ else if 📦",
+                level: "Beginner",
+                code: `let distance = 45;\nif (distance <= 10) {\n  console.log("Free Delivery");\n} else if (distance <= 50) {\n  console.log("Standard Delivery");\n} else {\n  console.log("Express Delivery");\n}`,
+                concept: "بناء المعادلات اللوجستية مرنة ومتقدمة لتحديد تكاليف وفئات الشحن بناءً على المسافة الجغرافية بالكيلومترات بدقة متناهية.",
+                realWorld: "برمجة تطبيقات التوصيل الذكية والمطاعم الشهيرة لحساب مصاريف الشحن تلقائياً فور تحديد موقع العميل بالخريطة.",
+                breakdown: ["المسافة 45 ليست أصغر من 10.", "ولكنها أصغر من 50 (تحقق الفحص الثاني)، فتم تصنيف الشحن كشحن قياسي Standard وعرض الإشعار."],
+                mental: "التسلسل الهرمي التصاعدي يضمن الفرز الدقيق؛ حيث يمر الرقم بكافة الفلاتر الشرطية حتى يجد النطاق الهندسي المناسب له تماماً.",
+                mistake: "إهمال كتابة كتلة else النهائية مما يترك المسافات البعيدة والضخمة بدون فئة شحن معتمدة ومحددة بوضوح داخل الكود.",
+                pro: "صمم دائماً خوارزميات التوصيل بمرونة فائقة تستوعب كافة النطاقات الجغرافية لراحة ومتعة العملاء والمشتركين.",
+                challenge: "اجعل المسافة تقفز إلى 90 كيلومتر وشاهد الانتقال التلقائي للنظام لاعتماد فئة الشحن السريع والمتقدم Express."
+            },
+            {
+                title: "35. الشروط المنفصلة لتفعيل وتجميع مكافآت المتجر 🎁",
+                level: "Beginner",
+                code: `let totalItems = 6;\nif (totalItems >= 5) { console.log("Free Pen"); }\nif (totalItems >= 3) { console.log("Free Sticker"); }`,
+                concept: "استخدام عبارات الفحص الفردية والمتتالية لمنح المستهلك هدايا ومكافآت تراكمية متعددة بناءً على حجم سلة مشترياته الحالية.",
+                realWorld: "عروض المتاجر الكبرى في المناسبات لزيادة حجم المبيعات وتحفيز المشترين بشكل مستمر وجذاب.",
+                breakdown: ["عدد المنتجات بالسلة 6.", "الشرط الأول صحيح فيحصل على القلم الهدية.", "الشرط الثاني صحيح أيضاً فيحصل على الملصق الهدية معاً في نفس الدورة الحية."],
+                mental: "الـ if المنفصلة لا تعرف التوقف الحصري؛ هي تمنح وتكافئ العميل بكل الصلاحيات التي يستحقها بالتوازي ودون تداخل مزعج.",
+                mistake: "تحويل هذه الفحوصات لهيكل else if بالخطأ، مما يحرم العميل من هدية الملصق لأن الكود سيكتفي بالهدية الأولى ويخرج فورا.",
+                pro: "ادرس طبيعة العرض التجاري جيداً؛ عروض التجميع التراكمي تتطلب دائماً شروطاً مستقلة تماماً لضمان رضا وثقة المستهلك.",
+                challenge: "قلل المنتجات لتصبح منتجين 2 فقط وراقب اختفاء كافة الهدايا والمكافآت تلقائياً من لوحة الكونسول التفاعلية."
+            },
+            {
+                title: "36. الرابط المنطقي AND لفحص رصيد وصلاحية حجز التذاكر 🎫",
+                level: "Beginner",
+                code: `let userBalance = 150;\nlet seatsAvailable = true;\nif (userBalance >= 100 && seatsAvailable) {\n  console.log("Ticket Booked");\n}`,
+                concept: "تطبيق الفحص المشترك والحازم بالمعامل && لضمان نجاح عمليات الحجز الإلكتروني فور توفر الرصيد والمقاعد الشاغرة معاً.",
+                realWorld: "أنظمة حجز تذاكر الطيران ومباريات كرة القدم والسينمات الفاخرة عبر الإنترنت لمنع الازدحام والأخطاء المالية الخفية.",
+                breakdown: ["رصيد المستخدم كافٍ 150 (true) والمقاعد متوفرة بالصالة (true).", "الطرفان صلبان وصحيحان تماماً، يتم تأكيد حجز التذكرة فوراً Ticket Booked."],
+                mental: "الرابط && يضمن تلافي الثغرات اللوجستية؛ فلا يمكن حجز تذكرة لشخص لا يملك المال، ولا لشخص يملك المال ولكن القاعة ممتلئة تماماً.",
+                mistake: "استبدال الرابط بـ || بالخطأ مما يسبب كوارث حجز مقاعد وهمية غير موجودة بالواقع وتخريب أنظمة الشركة التجارية.",
+                pro: "صمم دائماً بوابات الحجز الرقمية بصرامة منطقية مطلقة مستخدماً الروابط الحازمة لحفظ أصول واستقرار المؤسسة والعملاء.",
+                challenge: "اجعل المقاعد متوفرة false (ممتلئة) وشاهد كيف يرفض النظام إتمام عملية الحجز بالرغم من ضخامة رصيد المستخدم المالي."
+            },
+            {
+                title: "37. الرابط المنطقي OR لتوفير خيارات دفع بديلة ومتنوعة 💳",
+                level: "Beginner",
+                code: `let paypalReady = false;\nlet instapayReady = true;\nif (paypalReady || instapayReady) {\n  console.log("Payment Accepted");\n}`,
+                concept: "استخدام المعامل || لتسهيل المعاملات المالية ومنح العميل خيارات سداد متعددة تضمن إتمام الشراء بنجاح ومرونة كاملة.",
+                realWorld: "برمجة بوابات الدفع الإلكتروني بموقع الأكاديمية والمتاجر الحديثة لدعم فوري لكافة المحافظ الرقمية والأنظمة المحلية والأجنبية.",
+                breakdown: ["حساب الباي بال غير مفعل (false) ولكن محفظة إنستاباي نشطة وتعمل (true).", "الرابط OR يمرر المعاملة فوراً ويوافق على الدفع Payment Accepted."],
+                mental: "تعدد وسائل الدفع يرفع من نسب المبيعات ويمنع خسارة العملاء عند تعطل شبكة أو محفظة معينة بفضل البدائل الحية الذكية.",
+                mistake: "الافتراض الخاطئ بوجوب ربط وتفعيل كافة المحافظ معاً بالشرط، || يكتفي بوميض مالي واحد صحيح للموافقة والتمرير السريع.",
+                pro: "اجعل واجهات الدفع دائماً مرحبة بكافة الوسائل والبدائل المتاحة لرفع مستوى رضا وتجربة المتسوقين والعملاء بمتجرك المطور.",
+                challenge: "عطل محفظة إنستاباي واجعلها false لتشاهد كيف ترفض البوابة إتمام العملية وتتوقف الفاتورة تماماً بالمحرر الحي."
+            },
+            {
+                title: "38. مرونة إعادة التعيين لمتغيرات النصوص بـ let 🕵️‍♂️",
+                level: "Beginner",
+                code: `let currentStatus = "Idle";\ncurrentStatus = "Coding";\nconsole.log(currentStatus);`,
+                concept: "تأكيد قدرة let العالية في تتبع وتغيير الحالات النصية للمستخدمين باستمرار لمواكبة أنشطتهم الفعلية الحالية بالمنصة.",
+                realWorld: "تحديث الحالة الشخصية بتطبيقات الشات (متصل، مشغول، يكتب الآن، في العمل) تلقائياً وديناميكياً.",
+                breakdown: ["بدأت حالة المستخدم خاملة Idle بالذاكرة.", "عند بدء الكتابة والعمل تم تغيير النص وتحديث الصندوق لـ Coding فورا.", "المخرج النهائي هو Coding."],
+                mental: "الذاكرة العشوائية تمسح الحروف القديمة فوراً وتستقر على الكلمات الحديثة لضمان دقة التواصل البصري بين الأعضاء والمستخدمين.",
+                mistake: "إعادة الإعلان عن المتغير بكتابة let بالسطر الثاني، وهو خطأ برمجي شهير يعطل عمل وتحديث الصفحة بالكامل فورا.",
+                pro: "الحفاظ على تحديث الحالات النصية بذكاء يمنح تطبيقاتك طابعاً حياً وتفاعلياً يجذب ويسعد كافة المستخدمين والمطورين.",
+                challenge: "أضف سطر تحديث ثالث واجعل الحالة النهائية 'Mastering JS' لتأكيد تفوقك وشغفك بساحة الكود التفاعلي الفوري."
+            },
+            {
+                title: "39. الشرط الثنائي لفحص مستويات درجات الحرارة الحساسة 🌡️",
+                level: "Beginner",
+                code: `let roomTemp = 32;\nif (roomTemp > 30) {\n  console.log("Turn On AC");\n} else {\n  console.log("Turn Off AC");\n}`,
+                concept: "استخدام المقارنات الشرطية المباشرة للتحكم في الأجهزة والأنظمة الميكانيكية الذكية بناءً على القراءات الفعلية للحساسات البيئية.",
+                realWorld: "برمجة أجهزة التكييف الذكية والأنظمة المنزلية المتقدمة (Smart Homes) للحفاظ على استقرار وراحة الأفراد تلقائياً ودون تدخل.",
+                breakdown: ["درجة حرارة الغرفة الحالية 32 وهي أكبر من 30 (الشرط صحيح تماماً).", "يتم تشغيل التكييف فوراً وتبريد الأجواء Turn On AC."],
+                mental: "الأنظمة الذكية تترجم الأرقام المجردة لأوامر حركية وتشغيلية فعلية تحسن من جودة وتسهل تفاصيل الحياة اليومية للبشر.",
+                mistake: "كتابة الأوامر خارج الأقواس المتعرجة المخصصة لكتلة الشرط {} مما يربك المفسر البرمجي ويعطل منطق العمل التلقائي تماماً.",
+                pro: "اربط دائماً أكوادك بقراءات حقيقية من واقع الحياة لتصنع برمجيات نافعة وذات قيمة تطبيقية عالية وكفاءة هندسية ممتازة.",
+                challenge: "اخفض درجة حرارة الغرفة إلى 22 درجة وشاهد كيف يتنقل النظام تلقائياً لإغلاق التكييف وتوفير الطاقة بالمحرر الحي."
+            },
+            {
+                title: "40. نهاية الرحلة وتأكيد الفهم الشامل بـ else if 🤖",
+                level: "Beginner",
+                code: `let finalCheck = "Perfect";\nif (finalCheck === "Weak") {\n  console.log("Review Lessons");\n} else if (finalCheck === "Perfect") {\n  console.log("Ready For Quiz");\n} else {\n  console.log("Keep Practicing");\n}`,
+                concept: "استخدام سلاسل التصفية المتطابقة والمتقدمة بـ else if للاطمئنان على جاهزية الطلاب الكاملة للانتقال للاختبارات الشاملة والشهادات.",
+                realWorld: "التقييم النهائي والآلي للأداء الأكاديمي والبرمجي للطلاب بأكاديمية مستر روبوت للتدريب لضمان التفوق والريادة المطلقة.",
+                breakdown: ["الحالة النهائية للطالب ليست ضعيفة Weak.", "ولكنها ممتازة ومتطابقة تماماً مع Perfect بالشرط الثاني، فيطبع التأهيل الفوري Ready For Quiz."],
+                mental: "أنت الآن تملك سلاحاً منطقياً كاملاً؛ المتغيرات والشروط والروابط هي اللبنات الأساسية لبناء أضخم البرامج والتطبيقات العالمية.",
+                mistake: "التسرع وعدم مراجعة شروط التطابق الدقيق، تذكر دائماً أن جافا سكريبت لغة حساسة لحالة الأحرف والحروف النصية بالكامل.",
+                pro: "تهانينا الحارة من أكاديمية مستر روبوت! لقد أتممت 40 نقطة شرح تفاعلية مبتكرة، وأصبحت جاهزاً تماماً لساحة الاختبار الآن.",
+                challenge: "شغل هذا الدرس الأخير واقرأ رسالتك المشرفة بالكونسول، ثم استعد لكتابة اسمك والانطلاق نحو الاختبار التفاعلي الشامل 🚀"
+            }
+        ];
+
+        // --- ثانياً: مصفوفة الأسئلة التفاعلية كاملة (50 سؤالاً فريداً ومطوراً) ---
+        const quizData = [
+            {
+                q: "ما هي الوظيفة الأساسية للمتغيرات (Variables) في لغة جافا سكريبت المطور؟",
+                opts: ["تخزين البيانات والمعلومات في الذاكرة للرجوع إليها لاحقاً", "تغيير ألوان وتصميمات صفحة الويب بشكل مباشر ومستمر", "حذف الأكواد البرمجية القديمة تلقائياً لتوفير المساحات", "طباعة رسائل ترحيبية ثابتة للجمهور دون استخدام الذاكرة"],
+                ans: 0,
+                hint: "المتغيرات تعمل كحاويات أو صناديق ذكية لحفظ القيم وحالات البرنامج الحية."
+            },
+            {
+                q: "أي من الكلمات المحجوزة التالية تستخدم للإعلان عن متغير قابل لإعادة التعيين والتحديث؟",
+                opts: ["if", "let", "else", "and"],
+                ans: 1,
+                hint: "الكلمة let تمنحك القدرة على إنشاء صناديق متغيرة ومرنة للغاية بالذاكرة العشوائية."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة الكود التالي؟\nlet x = 10;\nx = 20;\nconsole.log(x);",
+                opts: ["10", "20", "30", "undefined"],
+                ans: 1,
+                hint: "إعادة التعيين تمسح القيمة القديمة وتثبت القيمة الأحدث المخزنة بالصندوق فوراً."
+            },
+            {
+                q: "ما الخطأ البرمجي في كتابة الأسطر التالية؟\nlet name = \"Andrew\";\nlet name = \"Robot\";",
+                opts: ["تكرار كلمة let لنفس المتغير في نفس النطاق يسبب خطأ SyntaxError", "لا يمكن تخزين نصوص داخل متغيرات let إطلاقاً", "يجب استخدام علامات تنصيص مفردة حصرياً مع let", "اسم المتغير قصير للغاية ويجب أن يتجاوز خمسة أحرف"],
+                ans: 0,
+                hint: "نعلن عن المتغير بـ let مرة واحدة فقط، وعند التحديث نكتب الاسم مباشرة دون let."
+            },
+            {
+                q: "متى يتم الدخول لتنفيذ الكود المكتوب داخل كتلة الـ else في الشرط البسيط؟",
+                opts: ["عندما يكون الشرط المكتوب داخل أقواس الـ if صحيحاً (true)", "عندما يكون الشرط المكتوب داخل أقواس الـ if خاطئاً (false)", "عندما يتوقف البرنامج عن العمل نتيجة خطأ خارجي بالصفحة", "عند تكرار كتابة المتغيرات أكثر من ثلاث مرات متتالية بالكود"],
+                ans: 1,
+                hint: "الـ else هي المسار البديل والحتمي الذي يعمل فقط عند فشل الشرط الأساسي تماماً."
+            },
+            {
+                q: "ماذا تعني علامة الثلاث يساوي (===) في شروط جافا سكريبت التفاعلية؟",
+                opts: ["تعيين قيمة جديدة للمتغير ومسح القديمة فوراً", "المقارنة المتطابقة تماماً في القيمة ونوع البيانات معاً", "ضرب القيمة الحالية في ثلاثة تلقائياً بالمعالج", "تحويل النص إلى رقم بولياني سريع داخل الشرط"],
+                ans: 1,
+                hint: "المطابقة الدقيقة تضمن عدم التهاون بين الأنواع المختلفة كالأرقام والنصوص الشكلية."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل الكود التالي؟\nlet speed = 90;\nif (speed > 100) {\n  console.log(\"Fast\");\n} else {\n  console.log(\"Safe\");\n}",
+                opts: ["Fast", "Safe", "FastSafe", "لا يطبع شيء"],
+                ans: 1,
+                hint: "الرقم 90 ليس أكبر من 100، لذلك يتجاهل الكود المسار الأول وينفذ مسار else فوراً."
+            },
+            {
+                q: "عند رغبتنا في فحص شرط آخر جديد ومستقل فور فشل الشرط الأول مباشرة، ماذا نستخدم؟",
+                opts: ["else if", "if only", "let update", "not else"],
+                ans: 0,
+                hint: "العبارة else if تفتح مساراً فحصياً جديداً ومتصلاً بالسلسلة الهرمية للشروط بذكاء."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة الكود التالي؟\nlet points = 25;\nif (points > 30) {\n  console.log(\"A\");\n} else if (points > 20) {\n  console.log(\"B\");\n} else {\n  console.log(\"C\");\n}",
+                opts: ["A", "B", "C", "B و C معاً"],
+                ans: 1,
+                hint: "الـ 25 فشلت في الشرط الأول ونجحت في الثاني، فيتم طباعة B والخروج فوراً من السلسلة."
+            },
+            {
+                q: "إذا كتبنا عبارات if متعددة ومستقلة تحت بعضها بدون else, كيف يتصرف الكمبيوتر؟",
+                opts: ["يفحص الشرط الأول فقط ويتجاهل الباقي تماماً لحفظ الطاقة", "يفحص جميع الشروط وينفذ كل واحدة تحقق شرطها بشكل منفصل وتراكمي", "يعطل الصفحة فوراً لوجود تكرار في الكلمات الافتتاحية", "ينفذ الشرط الأخير دائماً بغض النظر عن صحة الشروط السابقة"],
+                ans: 1,
+                hint: "الـ if المستقلة تعتبر معارك منفصلة تماماً، وتسمح بتجميع الميزات والمكافآت التراكمية."
+            },
+            {
+                q: "ما هو الرمز البرمجي القياسي المعتمد لتمثيل الرابط المنطقي AND في جافا سكريبت؟",
+                opts: ["&&", "||", "!!", "and"],
+                ans: 0,
+                hint: "الرمز && يربط الشروط بصرامة تامة ويشترط نجاح الجميع معاً دون استثناء."
+            },
+            {
+                q: "متى يعطي الرابط المنطقي AND (&&) نتيجة إجمالية صحيحة (true)؟",
+                opts: ["إذا تحقق شرط واحد فقط من بين كل الشروط المتاحة", "إذا كانت جميع الشروط المربوطة صحيحة تماماً ومعاً", "إذا كانت جميع الشروط خاطئة ومنفية تماماً بالكود", "عند بدء المتغيرات بالرقم صفر وتحديثها باستمرار بـ let"],
+                ans: 1,
+                hint: "معامل && يكره الخطأ، ويهدم العبارة بالكامل لو ظهر طرف واحد false."
+            },
+            {
+                q: "ما هو الرمز البرمجي القياسي المعتمد لتمثيل الرابط المنطقي OR في لغة المطورين؟",
+                opts: ["&&", "||", "??", "or"],
+                ans: 1,
+                hint: "الرمز || يكتب بالضغط على Shift + \\ ويمثل التخيير والبدائل المرنة بالكود."
+            },
+            {
+                q: "متى يكتفي الرابط المنطقي OR (||) لتمرير نتيجة إجمالية صحيحة (true)؟",
+                opts: ["يشترط نجاح وتحقق جميع الشروط معاً دون أي خطأ", "يكتفي بتحقق ونجاح شرط واحد فقط صحيح من بين كل الخيارات", "عندما تكون جميع المسارات الشرطية تنتهي بكتلة else حتمية", "إذا تم إعلان وتحديث المتغيرات بكلمات محجوزة قديمة"],
+                ans: 1,
+                hint: "معامل || مرن ولطيف، وميض واحد صحيح يكفي لتمرير المسار بسلام ونجاح."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل الكود التالي؟\nlet ticket = true;\nlet mask = false;\nif (ticket && mask) {\n  console.log(\"Enter\");\n} else {\n  console.log(\"Block\");\n}",
+                opts: ["Enter", "Block", "EnterBlock", "لا يطبع شيء"],
+                ans: 1,
+                hint: "بما أن الرابط && وهناك طرف false (الكمامة مفقودة)، تنهار البوابة ونذهب فوراً لـ else."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل الكود التالي؟\nlet cash = false;\nlet card = true;\nif (cash || card) {\n  console.log(\"Buy\");\n} else {\n  console.log(\"Stop\");\n}",
+                opts: ["Buy", "Stop", "BuyStop", "undefined"],
+                ans: 0,
+                hint: "الرابط || تخييري، الكارت متوفر ويحمل قيمة true، لذلك تتم عملية الشراء بنجاح."
+            },
+            {
+                q: "ماذا تفعل علامة التعجب (!) عند وضعها قبل المتغيرات البوليانية؟",
+                opts: ["تضاعف القيمة الرقمية للمتغير عشرة مرات فوراً", "تمثل معامل النفي (NOT) وتقوم بعكس الحالة البوليانية تماماً", "تحول المتغير إلى تعليق سحري يتجاهله الكمبيوتر تلقائياً", "تدمج النصوص مع الأرقام الحقيقية دون استخدام علامة الزائد"],
+                ans: 1,
+                hint: "معامل النفي يقلب الـ true إلى false والـ false إلى true بلمح البصر."
+            },
+            {
+                q: "ما الناتج النهائي للكود التالي؟\nlet isClosed = false;\nif (!isClosed) {\n  console.log(\"Open\");\n}",
+                opts: ["Open", "Closed", "false", "خطأ برمجى كارثي"],
+                ans: 0,
+                hint: "النفي عكس الـ false فصارت true إجمالية، ودخلنا الصندوق وطبعنا بنجاح Open."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة أسطر التحديث الحسابية التالية؟\nlet wallet = 100;\nwallet = wallet + 50;\nwallet = wallet - 20;\nconsole.log(wallet);",
+                opts: ["100", "150", "130", "120"],
+                ans: 2,
+                hint: "تتبع العمليات بالترتيب: 100 زادت خمسين أصبحت 150، ثم خصمنا عشرين فاستقرت على 130."
+            },
+            {
+                q: "أي من الخيارات التالية يمثل أسماء متغيرات قياسية وصحيحة في جافا سكريبت؟",
+                opts: ["let studentName = \"Ali\";", "let student Name = \"Ali\";", "let let = \"Ali\";", "let 1student = \"Ali\";"],
+                ans: 0,
+                hint: "أسماء المتغيرات يجب أن تكون متصلة وبدون مسافات ولا تبدأ بأرقام أو كلمات محجوزة."
+            },
+            {
+                q: "ما الناتج النهائي للكود التالي؟\nlet num = 15;\nif (num > 10) {\n  if (num < 20) { console.log(\"Win\"); }\n}",
+                opts: ["Win", "Lose", "15", "لا يطبع شيء"],
+                ans: 0,
+                hint: "هذا شرط متداخل عميق (Nested if)، وبما أن الـ 15 نجحت في الفحصين طبعنا كلمة الفوز Win."
+            },
+            {
+                q: "ما الخطأ الفادح في كتابة الشرط التالي؟\nif (score = 100) { console.log(\"Perfect\"); }",
+                opts: ["استخدام علامة يساوي واحدة (=) وهي للتعيين وليست للمقارنة والفحص", "نسيان وضع كلمة let داخل قوس الشرط الدائري لحمايته", "يجب كتابة كلمة score بين علامات تنصيص ضخمة ومزدوجة", "الأقواس المتعرجة يجب استبدالها بأقواس مربعة صلبة فوراً"],
+                ans: 0,
+                hint: "الفحص يتطلب علامات المقارنة مثل === أو ==، أما علامة = الواحدة فهي لملء الصناديق فقط."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل الأسطر التالية؟\nlet status = \"\";\nif (status) {\n  console.log(\"Yes\");\n} else {\n  console.log(\"No\");\n}",
+                opts: ["Yes", "No", "Empty", "undefined"],
+                ans: 1,
+                hint: "النصوص الفارغة تماماً تعامل برمجياً كقيمة زرقاء خاملة (Falsy value) وتذهب فوراً للمسار else."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة الكود التالي؟\nlet a = 5;\nlet b = 10;\nif (a > 2 && b > 20) {\n  console.log(\"True Area\");\n} else {\n  console.log(\"False Area\");\n}",
+                opts: ["True Area", "False Area", "a > 2", "خطأ SyntaxError"],
+                ans: 1,
+                hint: "الرابط && صارم، وبالرغم من نجاح الطرف الأول إلا أن الـ b فشلت في تجاوز الـ 20 ففاز الـ else."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة الكود المطور التالي؟\nlet x = 5;\nlet y = 10;\nif (x > 2 || y > 20) {\n  console.log(\"Passed\");\n} else {\n  console.log(\"Failed\");\n}",
+                opts: ["Passed", "Failed", "5", "10"],
+                ans: 0,
+                hint: "الرابط || تخييري مرن، وبما أن الطرف الأول نجح (5 > 2) يكتفي بذلك ويطبع النجاح فوراً Passed."
+            },
+            {
+                q: "ماذا يحدث لو قمنا بتعريف متغير بـ let دون إعطائه أي قيمة ابتدائية مثل: let salary;؟",
+                opts: ["ينهار البرنامج ويتوقف المتصفح عن العرض تماماً", "يتم حجز المتغير بالذاكرة وتكون قيمته التلقائية الحالية undefined", "يتم ملء المتغير تلقائياً بالرقم صفر لحفظ المساحة بالمعالج", "تحول الكلمة let إلى تعليق سحري مخفي وميت حسابياً"],
+                ans: 1,
+                hint: "المتغير المعلن عنه وبدون تعيين قيمة ينتظر الملء ويحمل حالة غير محددة مؤقتاً."
+            },
+            {
+                q: "ما الناتج النهائي للكود التالي؟\nlet level = 5;\nif (level > 2) { console.log(\"Alpha\"); }\nif (level > 4) { console.log(\"Beta\"); }",
+                opts: ["Alpha", "Beta", "Alpha و Beta معاً في سطرين", "لا يطبع شيء"],
+                ans: 2,
+                hint: "هذه فحوصات مستقلة بـ if المتتالية، وبما أن الرقم 5 تجاوز الـ 2 والـ 4 طبعنا الكلمتين بالتوازي."
+            },
+            {
+                q: "كيف نكتب الشرط التالي بشكل صحيح هندسياً: إذا كان العمر ليس 18؟",
+                opts: ["if (age !== 18)", "if (age not 18)", "if (age =! 18)", "if age != 18"],
+                ans: 0,
+                hint: "الرمز !== يعبر عن عدم التطابق الدقيق والكامل في لغة جافا سكريبت الحية."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل أسطر التحديث التالية؟\nlet counter = 0;\ncounter = counter + 5;\ncounter = 10;\nconsole.log(counter);",
+                opts: ["0", "5", "10", "15"],
+                ans: 2,
+                hint: "السطر الثالث قام بمسح وإلغاء كافة الحسابات السابقة وعين القيمة 10 بشكل حاسم وصريح."
+            },
+            {
+                q: "ما هي الطريقة الصحيحة لزيادة قيمة متغير رقمي بمقدار 1 بشكل مختصر؟",
+                opts: ["counter++", "counter+1", "let counter+1", "counter====1"],
+                ans: 0,
+                hint: "المعامل ++ هو الاختصار الذكي والقياسي المعتمد لزيادة العدادات خطوة واحدة بالأكواد."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل الكود التالي？\nlet isAdmin = false;\nif (isAdmin === false) {\n  console.log(\"Guest\");\n}",
+                opts: ["Guest", "false", "لا يطبع شيء", "خطأ بالبنية"],
+                ans: 0,
+                hint: "الفحص يسأل هل القيمة تساوي false؟ وبما أنها بالفعل false فالشرط صحيح وتتم الطباعة بنجاح."
+            },
+            {
+                q: "إذا كان لدينا التقييم الهرمي التالي، أي مسار سيتم اختياره؟\nlet mark = 50;\nif (mark >= 50) { console.log(\"Accept\"); }\nelse if (mark >= 50) { console.log(\"Excel\"); }",
+                opts: ["Accept", "Excel", "Accept و Excel معاً", "لا يطبع شيء"],
+                ans: 0,
+                hint: "بمجرد عثور السلسلة المترابطة على أول شرط صحيح، تنفذه وتتجاهل الباقي تماماً وتخرج فوراً."
+            },
+            {
+                q: "أي مما يلي يصف سلوك جافا سكريبت التفاعلية تجاه حالة الأحرف بأسماء المتغيرات؟",
+                opts: ["لغة حساسة للغاية وتعتبر let myVar تختلف تماماً عن let myvar", "لغة مرنة وتدمج الأسماء المتشابهة في الحروف تلقائياً بالذاكرة", "تحول كافة الحروف الكبيرة إلى صغيرة فور تشغيل الملف بالمتصفح", "تمنع استخدام الحروف الكبيرة تماماً في تسمية متغيرات let"],
+                ans: 0,
+                hint: "حالة الأحرف (Case Sensitivity) معيار أساسي وصارم في لغات المطورين لمنع التداخل والخلط."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة الدمج النصي التالي؟\nlet label = \"Score: \";\nlet val = 100;\nconsole.log(label + val);",
+                opts: ["Score: 100", "Score:  + 100", "100", "خطأ حسابي ميت"],
+                ans: 0,
+                hint: "علامة الزائد (+) عند دمجها مع طرف نصي تعمل كغراء برمجي يلصق القيم ببعضها بذكاء."
+            },
+            {
+                q: "ما هو المعامل الذي يفحص التطابق الشرطي دون التدقيق في نوع البيانات (مقارنة فضفاضة)؟",
+                opts: ["==", "===", "!=", "&&"],
+                ans: 0,
+                hint: "العلامة الثنائية == تقارن الأشكال والقيم وتتغاضى عن الفروق بين النصوص والأرقام المجردة."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل الكود التالي؟\nlet active = true;\nlet verified = true;\nif (!active || !verified) {\n  console.log(\"Red\");\n} else {\n  console.log(\"Green\");\n}",
+                opts: ["Red", "Green", "true", "false"],
+                ans: 1,
+                hint: "النفي حول الطرفين لـ false || false ففشل شرط OR بالكامل، فانتقل الكود فوراً لكتلة else الخضراء."
+            },
+            {
+                q: "أي مما يلي يعتبر الهدف الأساسي من استخدام هيكل let المعزز؟",
+                opts: ["يمكن إعادة تعيين قيمتها ولكن لا يمكن إعادة الإعلان عنها بنفس النطاق", "لا يمكن تغيير قيمتها أبداً بعد السطر الأول من الإعلان والملء", "تختفي وتُحذف من الذاكرة العشوائية تلقائياً بمجرد استخدامها مرة واحدة", "تستخدم فقط لحفظ العمليات الحسابية والضرب والكسر العشرية"],
+                ans: 0,
+                hint: "المرونة في التحديث والأمان في منع التكرار هما سر تفوق وقوة صناديق let البرمجية."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة الأسطر الشرطية المتتالية التالية؟\nlet v = 8;\nif (v > 5) { console.log(\"Hi\"); }\nif (v > 10) { console.log(\"Bye\"); }",
+                opts: ["Hi", "Bye", "Hi و Bye معاً", "لا يطبع شيء"],
+                ans: 0,
+                hint: "الشرط الأول صحيح فيطبع Hi، بينما الشرط الثاني خاطئ (8 ليست أكبر من 10) فيتجاهله بسلام."
+            },
+            {
+                q: "ما المعنى الحرفي والمنطقي للعبارة الشرطية المكتوبة كالتالي: if (x && y)؟",
+                opts: ["نفذ الأوامر إذا كان المتغير x صحيحاً أو المتغير y صحيحاً وبديلاً", "نفذ الأوامر فقط عندما يكون كلا المتغيرين x و y صحيحين معاً وفي نفس الوقت", "قم بجمع قيمة المتغيرين وتخزين الناتج بالذاكرة العشوائية فوراً", "انفِ صحة المتغيرين وحولهما لرموز بوليانية فارغة وميتة"],
+                ans: 1,
+                hint: "المعامل مشترك && يتطلب تضافر وتضامن كافة الأطراف الحية لتمرير المسار بنجاح."
+            },
+            {
+                q: "ما المعنى الحرفي والمنطقي للعبارة الشرطية المكتوبة كالتالي: if (a || b)؟",
+                opts: ["نفذ الأوامر إذا كان المتغير a صحيحاً أو المتغير b صحيحاً أو كلاهما", "اشترط سقوط وفشل كلا المتغيرين معاً لتمرير الكود البرمجي بسلام", "اضرب قيمة a في b لحساب المضاعفات المشتركة بداخل الشرط", "تجاهل فحص المتغيرات وحولها لتعليقات سحرية مخصصة للمطورين"],
+                ans: 0,
+                hint: "المعامل التخييري || يفتح مسارات الأمان البديلة، ويكتفي بنجاح طرف واحد كحد أدنى."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل سلسلة الفحص التالية؟\nlet total = 10;\nif (total < 5) { console.log(\"Small\"); }\nelse { console.log(\"Large\"); }",
+                opts: ["Small", "Large", "10", "خطأ منطقي"],
+                ans: 1,
+                hint: "بما أن الرقم 10 ليس أصغر من 5، يفشل الشرط الأساسي تماماً ونرحل فوراً لكتلة else المعتمدة."
+            },
+            {
+                q: "أي من الرموز التالية يمثل معامل الإنقاص خطوة واحدة بالعدادات التفاعلية؟",
+                opts: ["--", "++", "-1", "==-"],
+                ans: 0,
+                hint: "المعامل المتتالي -- يطرح الرقم 1 من القيمة الحالية المخزنة بالذاكرة بذكاء واختصار احترافي."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة الكود الرياضي المتداخل التالي؟\nlet price = 50;\nif (price === 50) {\n  price = price + 10;\n}\nconsole.log(price);",
+                opts: ["50", "60", "10", "undefined"],
+                ans: 1,
+                hint: "المطابقة نجحت فدخلنا لتحديث وتعديل الصندوق بإضافة 10 درجات، فاستقر الرصيد على 60."
+            },
+            {
+                q: "ما السلوك التلقائي للحاسوب عند مواجهة تعليق برمجي يبدأ بـ // داخل كود الفحص؟",
+                opts: ["يقوم بتحليله وترجمته لرسائل ترحيبية تظهر للجمهور بالواجهة", "يتجاهله تماماً ولا يقرأه، حيث يستخدم فقط لشرح وفهم الكود برمجياً للمطورين", "يعتبره خطأ برمجياً فادحاً ويوقف تشغيل الصفحة الإلكترونية فوراً", "يقوم بحجز مساحات إضافية ضخمة بالذاكرة العشوائية لحفظ الحروف"],
+                ans: 1,
+                hint: "التعليقات هي ملاحظات لاصقة مخصصة لراحة المطورين، ولا تؤثر على سرعة أو منطق التنفيذ الحي."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل الفحص المنطقي المشترك التالي؟\nlet check = (20 > 10) && (5 < 3);\nconsole.log(check);",
+                opts: ["true", "false", "20", "خطأ في الشرط"],
+                ans: 1,
+                hint: "الطرف الأول صحيح (true) ولكن الطرف الثاني خاطئ (false)، وبسبب وجود && فالنتيجة الكلية هي false."
+            },
+            {
+                q: "ما الناتج النهائي لتشغيل الفحص التخييري المشترك التالي؟\nlet exam = (20 > 10) || (5 < 3);\nconsole.log(exam);",
+                opts: ["true", "false", "20", "5"],
+                ans: 0,
+                hint: "الطرف الأول صحيح (true)، وبما أن الرابط هو || المرن، فالنتيجة الإجمالية تصبح true مباشرة ودون تردد."
+            },
+            {
+                q: "كيف نكتب الشرط التالي برمجياً: إذا كان المتغير x أكبر من 5 وأقل من 10 معاً؟",
+                opts: ["if (x > 5 && x < 10)", "if (x > 5 or x < 10)", "if (5 < x < 10)", "if (x > 5 || x < 10)"],
+                ans: 0,
+                hint: "نربط بين الفحصين المستقلين لنفس المتغير باستخدام معامل الربط الصارم && لضمان حصر النطاق."
+            },
+            {
+                q: "ما الناتج النهائي لطباعة الكود المطور التالي؟\nlet mode = \"Dark\";\nlet res = \"Theme: \" + mode;\nconsole.log(res);",
+                opts: ["Theme: Dark", "Theme:  + Dark", "Dark", "Theme:"],
+                ans: 0,
+                hint: "تم دمج السلسلة النصية الثابتة مع المحتوى المتغير للصندوق النصي لإنتاج عبارة موحدة وجذابة بالواجهة."
+            },
+            {
+                q: "أي مما يلي يعتبر الهدف الأساسي من استخدام هيكل else if المتتابع والمترابط بالكود؟",
+                opts: ["توفير مسارات فحص بديلة ومنظمة تمنع تداخل القرارات وتكتفي بمسار واحد صحيح وحصري", "تكرار تنفيذ الأوامر مئة مرة متتالية دون استهلاك مساحات إضافية بالذاكرة العشوائية", "تحويل المتغيرات الرقمية الدقيقة إلى قيم بوليانية منفية وتلقائية بالمعالج", "حجب وإخفاء الأكواد الحساسة عن أعين المتسللين والمخترقين بمواقع الويب"],
+                ans: 0,
+                hint: "السلاسل المترابطة تنظم التدفق البرمجي وتضمن حسم القرارات واختيار الخيار الأنسب حصرياً وبكفاءة."
+            },
+            {
+                q: "تهانينا الحارة! ما هو الشعار والشعور البرمجي الأساسي لطلاب أكاديمية مستر روبوت المطور؟",
+                opts: ["الفهم العميق، الشغف المستمر، وبناء المستقبل البرمجي بذكاء واحترافية مطلقة 🤖", "الحفظ الشكلي للأكواد دون فهم تفاصيل المعالجة والمنطق الشرطي الحي", "الخوف والتردد عند مواجهة الأخطاء البرمجية الخفية بلوحات التحكم", "ترك التدريب والاعتماد على الحلول الجاهزة دون ممارسة وتطوير حقيقي"],
+                ans: 0,
+                hint: "المهندس أندرو مجدي يرحب بكم دائماً في رحلة التميز والصدارة العالمية لعالم البرمجة الشيق والذكي."
+            }
+        ];
+
+        // --- ثالثاً: هيكل الصفحة وتشغيل الواجهة البرمجية بالكامل دون تعديل (As Is) ---
+        let currentLessonIndex = 0;
+        let currentQuizIndex = 0;
+        let studentAnswers = new Array(quizData.length).fill(null);
+        let studentName = "";
+        let quizTimer = null;
+        let timeLeft = 3600; // 60 دقيقة كاملة بالاختبار
+
+        function loadLesson(index) {
+            const lesson = lessonsData[index];
+            document.getElementById('lesson-progress').innerText = `الدرس ${index + 1} من ${lessonsData.length}`;
+            
+            let html = `
+                <h3>${lesson.title}</h3>
+                <span class="badge" style="background-color: #2ea44f; color: #fff;">المستوى: ${lesson.level}</span>
+                
+                <p style="margin-top:15px;"><b>💡 Mفهوم البرمجي الأساسي:</b> ${lesson.concept}</p>
+                <div class="info-block"><b>🌍 مثال من الحياة الواقعية:</b> ${lesson.realWorld}</div>
+                
+                <div class="editor-container">
+                    <div class="editor-header">
+                        <span>💻 ساحة كود مستر روبوت التفاعلية</span>
+                        <button class="btn btn-check" style="padding:4px 10px; font-size:0.8rem; margin:0;" onclick="runLessonCode(${index})">تشغيل وفحص الكود ⚡</button>
+                    </div>
+                    <textarea id="code-editor-${index}" class="code-editor">${lesson.code}</textarea>
+                    <div class="console-output">
+                        <div class="console-title">🖥️ لوحة تحكم المتصفح (Console Output):</div>
+                        <div id="console-output-${index}">اضغط على تشغيل لرؤية المخرجات الحية...</div>
+                    </div>
+                </div>
+
+                <h4>📝 تحليل السطور البرمجية خطوة بخطوة:</h4>
+                <ul class="breakdown-list">
+                    ${lesson.breakdown.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+
+                <div class="info-block challenge"><b>🤖 تحدي المهندس أندرو:</b> ${lesson.challenge}</div>
+                <div class="info-block mistake"><b>⚠️ خطأ شائع احذر منه:</b> ${lesson.mistake}</div>
+                <p style="color: var(--accent-color);"><b>🎯 نصيحة المحترفين (Pro-Tip):</b> ${lesson.pro}</p>
+            `;
+            
+            document.getElementById('lesson-content-area').innerHTML = html;
+            document.getElementById('prev-lesson-btn').disabled = (index === 0);
+            document.getElementById('next-lesson-btn').disabled = (index === lessonsData.length - 1);
+        }
+
+        function runLessonCode(index) {
+            const editor = document.getElementById(`code-editor-${index}`);
+            const outputDiv = document.getElementById(`console-output-${index}`);
+            const userCode = editor.value;
+            
+            let logs = [];
+            const customConsole = {
+                log: function(msg) {
+                    logs.push(msg);
+                }
+            };
+
+            try {
+                const runFn = new Function('console', userCode);
+                runFn(customConsole);
+                if (logs.length === 0) {
+                    outputDiv.innerHTML = "<span style='color:var(--warning-color);'>تم تشغيل الكود بنجاح ولكن لا توجد مخرجات للطباعة. أضف console.log() لرؤية النتيجة!</span>";
+                } else {
+                    outputDiv.innerHTML = logs.map(l => {
+                        if (typeof l === 'object') return JSON.stringify(l);
+                        return l;
+                    }).join('\n');
+                }
+                outputDiv.style.color = "#58a6ff";
+            } catch (err) {
+                outputDiv.innerHTML = "❌ خطأ في الكود البرمجي الخاص بك:\n" + err.message;
+                outputDiv.style.color = "var(--danger-color)";
+            }
+        }
+
+        function navigateLesson(direction) {
+            currentLessonIndex += direction;
+            if (currentLessonIndex >= 0 && currentLessonIndex < lessonsData.length) {
+                loadLesson(currentLessonIndex);
+            }
+        }
+
+        function startQuiz() {
+            const nameInput = document.getElementById('student-name-input').value.trim();
+            if (nameInput === "") {
+                alert("برجاء إدخال اسمك ثلاثي لبدء الاختبار واستخراج التقرير بنجاح! 🚀");
+                return;
+            }
+            studentName = nameInput;
+            document.getElementById('quiz-setup').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('timer-box').style.display = 'block';
+            
+            startTimer();
+            loadQuizQuestion(currentQuizIndex);
+        }
+
+        function startTimer() {
+            quizTimer = setInterval(function() {
+                timeLeft--;
+                let mins = Math.floor(timeLeft / 60);
+                let secs = timeLeft % 60;
+                document.getElementById('timer-display').innerText = 
+                    (mins < 10 ? "0" + mins : mins) + ":" + (secs < 10 ? "0" + secs : secs);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(quizTimer);
+                    alert("انتهى وقت الاختبار التلقائي! سيتم تجميع وإرسال إجاباتك الحالية فوراً للتقييم.");
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function loadQuizQuestion(index) {
+            const qData = quizData[index];
+            document.getElementById('quiz-progress').innerText = `السؤال ${index + 1} من ${quizData.length}`;
+            document.getElementById('question-title').innerText = `السؤال الحالي رقم (${index + 1}):`;
+            
+            let html = `
+                <div style="font-size: 1.2rem; margin-bottom: 20px; font-weight: bold; white-space: pre-wrap; line-height:1.6; color:#ffd700;">${qData.q}</div>
+                
+                <div class="interactive-tab">
+                    <div class="interactive-tab-header" onclick="this.parentElement.classList.toggle('active')">💡 اضغط هنا لإظهار تلميحة المهندس أندرو المساعدة للمساعدة في الحل</div>
+                    <div class="interactive-tab-content">${qData.hint}</div>
+                </div>
+
+                <ul class="options-list">
+                    ${qData.opts.map((opt, oIdx) => `
+                        <li class="option-item" id="opt-item-${oIdx}" onclick="selectOption(${oIdx})">
+                            <input type="radio" name="quiz-opt" id="opt-${oIdx}" value="${oIdx}" ${studentAnswers[index] === oIdx ? 'checked' : ''}>
+                            <label for="opt-${oIdx}" style="cursor:pointer; width:100%; display:block;">${opt}</label>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+            
+            document.getElementById('dynamic-quiz-area').innerHTML = html;
+            document.getElementById('feedback-area').innerHTML = "";
+            
+            document.getElementById('prev-quiz-btn').disabled = (index === 0);
+            document.getElementById('next-quiz-btn').disabled = (index === quizData.length - 1);
+        }
+
+        function selectOption(optIdx) {
+            document.getElementById(`opt-${optIdx}`).checked = true;
+            studentAnswers[currentQuizIndex] = optIdx;
+        }
+
+        function checkCurrentAnswer() {
+            const selected = studentAnswers[currentQuizIndex];
+            if (selected === null) {
+                document.getElementById('feedback-area').innerHTML = `<p class="feedback-msg" style="color: var(--warning-color);">⚠️ يرجى تحديد إجابة أولاً للتحقق منها!</p>`;
+                return;
+            }
+            
+            const correctAns = quizData[currentQuizIndex].ans;
+            
+            for(let i=0; i<quizData[currentQuizIndex].opts.length; i++) {
+                const item = document.getElementById(`opt-item-${i}`);
+                if(item) {
+                    item.classList.remove('correct', 'wrong');
+                    if(i === correctAns) item.classList.add('correct');
+                    else if(i === selected) item.classList.add('wrong');
+                }
+            }
+
+            if (selected === correctAns) {
+                document.getElementById('feedback-area').innerHTML = `<p class="feedback-msg" style="color: var(--success-color);">🎉 إجابة ممتازة وصحيحة عبقري مستر روبوت المطور! تابع للأمام.</p>`;
+            } else {
+                document.getElementById('feedback-area').innerHTML = `<p class="feedback-msg" style="color: var(--danger-color);">❌ إجابة غير دقيقة. راجع التلميحة المساعدة بالأعلى وحاول مجدداً بثقة!</p>`;
+            }
+        }
+
+        function navigateQuiz(direction) {
+            currentQuizIndex += direction;
+            if (currentQuizIndex >= 0 && currentQuizIndex < quizData.length) {
+                loadQuizQuestion(currentQuizIndex);
+            }
+        }
+
+        function submitQuiz() {
+            let unanswered = 0;
+            studentAnswers.forEach(ans => { if(ans === null) unanswered++; });
+            
+            if (unanswered > 0) {
+                if(!confirm(`انتبه! لديك ${unanswered} سؤالاً لم تقم بالإجابة عليها بعد في الاختبار الشامل. هل تريد الاستمرار وإنهاء الاختبار بالكامل على أي حال؟`)) {
+                    return;
+                }
+            }
+            
+            clearInterval(quizTimer);
+            document.getElementById('timer-box').style.display = 'none';
+            
+            let finalScore = 0;
+            let totalQuestions = quizData.length;
+            
+            quizData.forEach((quiz, index) => {
+                if (studentAnswers[index] === quiz.ans) {
+                    finalScore++;
+                }
+            });
+            
+            let percentage = Math.round((finalScore / totalQuestions) * 100);
+            
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+            document.getElementById('score-summary').innerHTML = `لقد أجبت بشكل صحيح على <b>${finalScore}</b> من أصل <b>${totalQuestions}</b> سؤال بنسبة نجاح بلغت <b>${percentage}%</b>.`;
+            
+            document.getElementById('cert-name').innerText = studentName;
+            document.getElementById('cert-score').innerText = `بدرجة تميز بلغت: ${percentage}%`;
+        }
+
+        function shareToWhatsApp() {
+            const targetPhone = "201555772562";
+            const currentScore = document.getElementById('cert-score').innerText.split(': ')[1];
+            const message = `مرحباً مهندس / أندرو، أنا الطالب/الطالبة: ${studentName}.\nهذا تقرير بالواجبات المطلوبة مني وقد اجتزت الواجبات بنسبة تميز بلغت ${currentScore}! 🎉🤖`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetPhone}&text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        window.onload = function() {
+            loadLesson(currentLessonIndex);
+        };
+    </script>
+</body>
+</html>
